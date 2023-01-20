@@ -5,6 +5,7 @@
 
 trigger:
 - main
+- releases/1.1.1
 
 strategy:
   matrix:
