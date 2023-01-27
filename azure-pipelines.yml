@@ -22,6 +22,25 @@ stages:
     - script: echo Testing on Linux!
 - stage: Deploy
   jobs:
-  - job: Deploy
-    steps:
-    - script: echo Deploying the code!
+  - deployment: DeployWeb
+    displayName: deploy Web App
+    pool:
+      vmImage: 'ubuntu-latest'
+    # Records deployment against bookings resource - Kubernetes namespace.
+    environment: 'smarthotel-dev.bookings'
+    strategy: 
+      runOnce:
+        deploy:
+          steps:
+            # No need to explicitly pass the connection details.
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              namespace: $(k8sNamespace)
+              manifests: |
+                $(System.ArtifactsDirectory)/manifests/*
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(containerRegistry)/$(imageRepository):$(tag)
