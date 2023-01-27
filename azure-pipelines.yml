@@ -9,8 +9,8 @@
 parameters:
 - name: succeed
   displayName: Succeed or fail
-  type: string
-  default: boolean
+  type: boolean
+  default: false
   values:
   - true
   - false
@@ -19,7 +19,7 @@ parameters:
 #  succeed: false
 
 trigger:
-- main
+- none
 
 pool:
   vmImage: ubuntu-latest
