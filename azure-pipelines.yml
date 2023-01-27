@@ -6,8 +6,18 @@
 #   type: boolean
 #   default: false
 
-variables:
-  succeed: false
+parameters:
+- name: succeed
+  displayName: Succeed or fail
+  type: string
+  default: boolean
+  values:
+  - true
+  - false
+
+#variables:
+#  succeed: false
+
 trigger:
 - main
 
