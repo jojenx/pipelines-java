@@ -8,7 +8,7 @@
 
 parameters:
 - name: succeed
-  displayName: Succeed or fail
+  displayName: Mark to set 'succeed' as true
   type: boolean
   default: false
   values:
