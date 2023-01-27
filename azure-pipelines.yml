@@ -7,7 +7,7 @@
 #   default: false
 
 variables:
-  succeed: true
+  succeed: false
 trigger:
 - main
 
