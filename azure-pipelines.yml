@@ -4,36 +4,24 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
-- main
-- releases/*
+- none
 
-strategy:
-  matrix:
-    jdk8_linux:
-      imageName: "ubuntu-latest"
-      jdkVersion: "1.8"
-    jdk11_windows:
-      imageName: "windows-latest"
-      jdkVersion: "1.11"
-  maxParallel: 2
-
-pool:
-  vmImage: $(imageName)
-
-steps:
-- task: Maven@4
-  inputs:
-    mavenPomFile: "pom.xml"
-    mavenOptions: "-Xmx3072m"
-    javaHomeOption: "JDKVersion"
-    jdkVersionOption: $(jdkVersion)
-    jdkArchitectureOption: "x64"
-    publishJUnitResults: true
-    testResultsFiles: "**/TEST-*.xml"
-    goals: "package"
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: "JaCoCo"
-    summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/jacoco/jacoco.xml"
-    reportDirectory: "$(System.DefaultWorkingDirectory)/**/site/jacoco"
-    failIfCoverageEmpty: true
+stages:
+- stage: Build
+  jobs:
+  - job: BuildJob
+    steps:
+    - script: echo Building!
+- stage: Test
+  jobs:
+  - job: TestOnWindows
+    steps:
+    - script: echo Testing on Windows!
+  - job: TestOnLinux
+    steps:
+    - script: echo Testing on Linux!
+- stage: Deploy
+  jobs:
+  - job: Deploy
+    steps:
+    - script: echo Deploying the code!
